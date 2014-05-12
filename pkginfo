@@ -1,0 +1,10 @@
+PKG=SSOSsysvdev
+NAME=Sunshine System V Development Tools
+DESC=yacc, lex, m4, make, and SCCS
+VENDOR=The Sunshine OS Project
+#HOTLINE=http://heirloom.sourceforge.net
+#EMAIL=gunnarr@acm.org
+VERSION=0.1
+ARCH=x86_64
+CATEGORY=utilities
+BASEDIR=/
