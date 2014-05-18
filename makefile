@@ -32,7 +32,7 @@ PKGROOT = /var/tmp/heirloom-devtools
 PKGTEMP = /var/tmp
 PKGPROTO = pkgproto
 
-SSOSsysvdev.pkg: all
+SSOSsvdev.pkg: all
 	rm -rf $(PKGROOT)
 	mkdir -p $(PKGROOT)
 	$(MAKE) ROOT=$(PKGROOT) install
