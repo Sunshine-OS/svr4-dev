@@ -89,6 +89,7 @@ static void	get(char *);
 static void	gen_lfile(register struct packet *);
 static void	idsetup(register struct packet *);
 static void	makgdate(register char *, register char *);
+static void	makkdate(register char *, register char *);
 static char	*idsubst(register struct packet *, char []);
 static char	*_trans(register char *, register char *, register char *);
 static void	prfx(register struct packet *);
@@ -649,9 +650,11 @@ gen_lfile(register struct packet *pkt)
 static char	Curdate[18];
 static char	*Curtime;
 static char	Gdate[DATELEN];
+static char Kdate[DATELEN];
 static char	Chgdate[18];
 static char	*Chgtime;
 static char	Gchgdate[DATELEN];
+static char Kchgdate[DATELEN];
 static char	Sid[32];
 static char	Mod[FILESIZE];
 static char	Olddir[BUFSIZ];
@@ -670,6 +673,7 @@ idsetup(register struct packet *pkt)
 	Curtime = &Curdate[9];
 	Curdate[8] = 0;
 	makgdate(Curdate,Gdate);
+	makkdate(Curdate, Kdate);
 	for (n = maxser(pkt); n; n--)
 		if (pkt->p_apply[n].a_code == APPLY)
 			break;
@@ -686,6 +690,7 @@ idsetup(register struct packet *pkt)
 	Chgtime = &Chgdate[9];
 	Chgdate[8] = 0;
 	makgdate(Chgdate,Gchgdate);
+	makkdate(Chgdate, Kchgdate);
 	sid_ba(&pkt->p_gotsid,Sid);
 	if ((p = Sflags[MODFLAG - 'a']) != NULL)
 		copy(p,Mod);
@@ -706,6 +711,23 @@ makgdate(register char *old, register char *new)
 		new++;
 	*new++ = old[7];
 	*new++ = '/';
+	*new++ = old[0];
+	*new++ = old[1];
+	*new = 0;
+}
+
+/* convert YY/MM/DD date to DD/MM/YY */
+static void 
+makkdate(register char *old, register char *new)
+{
+	*new++ = old[6];
+	*new++ = old[7];
+	*new++ = '/';
+
+	*new++ = old[3];
+	*new++ = old[4];
+	*new++ = '/';
+
 	*new++ = old[0];
 	*new++ = old[1];
 	*new = 0;
@@ -801,6 +823,9 @@ idsubst(register struct packet *pkt, char line[])
 				break;
 			case 'G':
 				tp = trans(tp,Gchgdate);
+				break;
+			case 'K':
+				tp = trans(tp,Kchgdate);
 				break;
 			case 'U':
 				tp = trans(tp,Chgtime);
