@@ -54,8 +54,8 @@
 #include <unistd.h>		/* read(), unlink() */
 
 #if !defined(__sun) && defined (TEAMWARE_MAKE_CMN)
-#include <avo/types.h>
-extern "C" Avo_err *avo_find_run_dir(char **dirp);
+//#include <avo/types.h>
+//extern "C" Avo_err *avo_find_run_dir(char **dirp);
 #endif
 
 /*
@@ -134,7 +134,7 @@ read_simple_file(register Name makefile_name, register Boolean chase_path, regis
 
 
 #if !defined(__sun) && defined (TEAMWARE_MAKE_CMN)
-	Avo_err                 *findrundir_err;
+	int                 *findrundir_err;
 	char                    *run_dir, makerules_dir[BUFSIZ];
 #endif
 
@@ -192,13 +192,13 @@ read_simple_file(register Name makefile_name, register Boolean chase_path, regis
 						&makefile_path,
 						-1);
 #elif defined (TEAMWARE_MAKE_CMN)
-                		findrundir_err = avo_find_run_dir(&run_dir);
-                		if (! findrundir_err) {
+                		//findrundir_err = avo_find_run_dir(&run_dir);
+                		/*if (! findrundir_err) {
                         		sprintf(makerules_dir, NOCATGETS("%s/../lib"), run_dir);
 					add_dir_to_path(makerules_dir,
 							&makefile_path,
 							-1);
-                		}
+                		}*/
 
 				add_dir_to_path(NOCATGETS("/usr/SUNWspro/lib"),
 						&makefile_path,

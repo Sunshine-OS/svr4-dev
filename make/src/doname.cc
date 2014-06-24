@@ -45,7 +45,7 @@
  */
 #include <avo/avo_alloca.h>		/* alloca() */
 #if defined(TEAMWARE_MAKE_CMN)
-#include <avo/util.h>		/* avo_get_user(), avo_hostname() */
+//#include <avo/util.h>		/* avo_get_user(), avo_hostname() */
 #endif
 
 #if defined(DISTRIBUTED) || defined(MAKETOOL) /* tolik */

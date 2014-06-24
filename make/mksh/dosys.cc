@@ -47,7 +47,8 @@
 #include <avo/avo_alloca.h>		/* alloca() */
 
 #if defined(TEAMWARE_MAKE_CMN) || defined(MAKETOOL) /* tolik */
-#	include <avo/strings.h>	/* AVO_STRDUP() */
+#include <string.h>
+#define AVO_STRDUP strdup
 #if defined(DISTRIBUTED)
 #	include <dm/Avo_CmdOutput.h>
 #	include <rw/xdrstrea.h>

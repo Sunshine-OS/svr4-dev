@@ -44,16 +44,16 @@
  * Included files
  */
 #if defined(TEAMWARE_MAKE_CMN)
-#       include <avo/intl.h>
-#       include <avo/libcli.h>          /* libcli_init() */
-#	include <avo/cli_license.h>	/* avo_cli_get_license() */
-#	include <avo/find_dir.h>	/* avo_find_run_dir() */
-#	include <avo/version_string.h>
-#	include <avo/util.h>		/* avo_init() */
+//#       include <avo/intl.h>
+//#       include <avo/libcli.h>          /* libcli_init() */
+//#	include <avo/cli_license.h>	/* avo_cli_get_license() */
+//#	include <avo/find_dir.h>	/* avo_find_run_dir() */
+//#	include <avo/version_string.h>
+//#	include <avo/util.h>		/* avo_init() */
 #ifdef USE_DMS_CCR
 #	include <avo/usage_tracking.h>
 #else
-#	include <avo/cleanup.h>
+//#	include <avo/cleanup.h>
 #endif
 #endif
 
@@ -168,7 +168,7 @@ static	Boolean		getname_stat = false;
 #ifdef USE_DMS_CCR
 	static  Avo_usage_tracking *usageTracking = NULL;
 #else
-	static  Avo_cleanup	*cleanup = NULL;
+	//static  Avo_cleanup	*cleanup = NULL;
 #endif
 #endif
 
@@ -212,7 +212,8 @@ extern void expand_value(Name, register String , Boolean);
 	extern	XDR 		xdrs_out;
 #endif
 #ifdef TEAMWARE_MAKE_CMN
-	extern	char		verstring[];
+	//extern	char		verstring[];
+	char	verstring[] ="Sunshine DMake";
 #endif
 
 jmp_buf jmpbuffer;
@@ -275,7 +276,7 @@ main(int argc, char *argv[])
 #endif
 	hostid = gethostid();
 #ifdef TEAMWARE_MAKE_CMN
-	avo_get_user(NULL, NULL); // Initialize user name
+	//avo_get_user(NULL, NULL); // Initialize user name
 #endif
 	bsd_signals();
 
@@ -295,18 +296,18 @@ main(int argc, char *argv[])
 	 */
 #if defined(TEAMWARE_MAKE_CMN) || defined(MAKETOOL)
 	um = umask(0);
-	avo_init(argv[0]);
+	//avo_init(argv[0]);
 	umask(um);
 
 #ifdef USE_DMS_CCR
 	usageTracking = new Avo_usage_tracking(NOCATGETS("dmake"), argc, argv);
 #else
-	cleanup = new Avo_cleanup(NOCATGETS("dmake"), argc, argv);
+	//cleanup = new Avo_cleanup(NOCATGETS("dmake"), argc, argv);
 #endif
 #endif
 
 #if defined(TEAMWARE_MAKE_CMN)
-	libcli_init();
+	//libcli_init();
 
 #ifdef _CHECK_UPDATE_H
 	/* This is for dmake only (not for Solaris make).
@@ -614,8 +615,8 @@ main(int argc, char *argv[])
 		}
 #else
 		if(dmake_mode_type == distributed_mode) {
-			fprintf(stdout, NOCATGETS("dmake: Distributed mode not implemented.\n"));
-			fprintf(stdout, NOCATGETS("       Defaulting to parallel mode.\n"));
+			/*fprintf(stdout, NOCATGETS("dmake: Distributed mode not implemented.\n"));
+			fprintf(stdout, NOCATGETS("       Defaulting to parallel mode.\n"));*/
 			dmake_mode_type = parallel_mode;
 			no_parallel = false;
 		}
@@ -630,6 +631,7 @@ main(int argc, char *argv[])
 #else
 	parallel_flag = true;
 	/* XXX - This is a major hack for DMake/Licensing. */
+#ifdef lol
 	if (getenv(NOCATGETS("DMAKE_CHILD")) == NULL) {
 		if (!avo_cli_search_license(argv[0], dmake_exit_callback, TRUE, dmake_message_callback)) {
 			/*
@@ -652,6 +654,7 @@ main(int argc, char *argv[])
 		value.it_value.tv_usec = 0;
 		setitimer(ITIMER_REAL, &value, NULL);
 	}
+#endif
 #endif
 
 //
@@ -974,8 +977,8 @@ if(getname_stat) {
 	//usageTracking->setExitStatus(exit_status, NULL);
 	//delete usageTracking;
 #else
-	cleanup->set_exit_status(exit_status);
-	delete cleanup;
+	/*cleanup->set_exit_status(exit_status);
+	delete cleanup;*/
 #endif
 #endif
 
@@ -2085,19 +2088,19 @@ set_sgs_support()
 		sprintf(newpath, "%s=%s", LD_SUPPORT_ENV_VAR, oldpath);
 	}
 
-#if defined(TEAMWARE_MAKE_CMN)
+//#if defined(TEAMWARE_MAKE_CMN)
 
 	/* function maybe_append_str_to_env_var() is defined in avo_util library
 	 * Serial make should not use this library !!!
 	 */
-	maybe_append_str_to_env_var(newpath, LD_SUPPORT_MAKE_LIB);
-#else
+//	maybe_append_str_to_env_var(newpath, LD_SUPPORT_MAKE_LIB);
+//#else
 	if (oldpath == NULL) {
 		sprintf(newpath, "%s%s", newpath, LD_SUPPORT_MAKE_LIB);
 	} else {
 		sprintf(newpath, "%s:%s", newpath, LD_SUPPORT_MAKE_LIB);
 	}
-#endif
+//#endif
 	putenv(newpath);
 	if (prev_path) {
 		free(prev_path);

@@ -51,7 +51,7 @@
 #include <errno.h>		/* errno */
 #include <fcntl.h>
 #ifdef TEAMWARE_MAKE_CMN
-#include <avo/util.h>		/* avo_get_user(), avo_hostname() */
+//#include <avo/util.h>		/* avo_get_user(), avo_hostname() */
 #endif
 #include <mk/defs.h>
 #include <mksh/dosys.h>		/* redirect_io() */
@@ -166,10 +166,10 @@ execute_parallel(Property line, Boolean waitflg, Boolean local)
 	    (dmake_mode_type == parallel_mode)) {
 #ifdef TEAMWARE_MAKE_CMN
 		if (user_name[0] == '\0') {
-			avo_get_user(user_name, NULL);
+			//avo_get_user(user_name, NULL);
 		}
 		if (local_host[0] == '\0') {
-			strcpy(local_host, avo_hostname());
+			//strcpy(local_host, avo_hostname());
 		}
 #endif
 		MBSTOWCS(wcs_buffer, NOCATGETS("DMAKE_MAX_JOBS"));
@@ -879,8 +879,8 @@ distribute_process(char **commands, Property line)
 #endif
 	if (Bflag) {
 #ifdef TEAMWARE_MAKE_CMN
-		sprintf(mbstring,
-		        NOCATGETS("%s/%s.stdout.%d.%d.XXXXXX"),
+		snprintf(mbstring, MAXPATHLEN - 1,
+		        "%s/dmake.stdout.%d.%d.XXXXXX",
 			tmpdir,
 		        getpid(),
 	                file_number++);
