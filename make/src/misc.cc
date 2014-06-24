@@ -237,6 +237,8 @@ fatal(const char * message, ...)
 void
 warning(const char * message, ...)
 {
+	if(message == 0)
+		return;
 	va_list args;
 
 	if (wflag)
